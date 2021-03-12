@@ -31,9 +31,6 @@
     margin-bottom: auto;
     margin-top: auto;
     vertical-align: middle;
-    font-size: 20px;
-
-    
 }
 
 @media (max-width: 767px) {
@@ -53,4 +50,10 @@
     .nomobilenavigation .section_footer .prevnext {
         width: auto;
     }
+}
+
+
+/* overide css */
+.btco-hover-menu{
+   min-height: 30px;
 }
