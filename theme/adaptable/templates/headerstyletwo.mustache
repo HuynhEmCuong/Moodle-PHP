@@ -34,9 +34,9 @@
     }
 }}
 <header id="adaptable-page-header-wrapper"{{{headerbg}}}>
-    <div id="header2" class="container pt-2">
+    <div id="header2" class="container">
         <div class="row">
-            <div class="d-none d-lg-block col-lg-4">
+            <div class="d-none d-lg-block col-lg-8">
                 <div class="d-flex justify-content-start bd-highlight">
                     {{#sitelogo}}{{{sitelogo}}}{{/sitelogo}}
                     {{#sitetitle}}{{{sitetitle}}}{{/sitetitle}}
@@ -46,7 +46,7 @@
                 </div>
             </div>
 
-            <div class="col-lg-8 p-0 my-auto">
+            <div class="col-lg-4 p-0 my-auto">
                 <nav class="navbar navbar-expand btco-hover-menu">
                     {{#shownavbar}}
                     <div id="adaptable-page-header-nav-drawer" data-region="drawer-toggle" class="d-lg-none mr-3">
@@ -78,8 +78,7 @@
 
                             {{! Remove Messages and Notifications icons when no navbar. }}
                             {{^nonavbar}}
-                            <li class="my-auto mx-1 " >
-                            {{{output.navbar_plugin_output}}}</li>
+                            <li class="my-auto mx-1 d-flex">{{{output.navbar_plugin_output}}}</li>
                             {{/nonavbar}}
 
                             {{#langmenu}}
@@ -98,7 +97,7 @@
     </div>
 
     {{#shownavbar}}
-    {{> theme_adaptable/headernavbar}}
+        {{> theme_adaptable/headernavbar}}
     {{/shownavbar}}
 
 </header>

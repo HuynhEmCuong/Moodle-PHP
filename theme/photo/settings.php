@@ -1,5 +1,5 @@
 <?php 
-    if($ADMIN->fulltree){
+    /*if($ADMIN->fulltree){
         
         $name = 'theme_photo/loginbackgroundimage';                                                                                     
         $title = get_string('loginbackgroundimage', 'theme_photo');                                                                     

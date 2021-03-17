@@ -14,7 +14,7 @@
  */
 require_once(__DIR__ . '/../../config.php');
 require_once($CFG->dirroot . '/local/message/class/form/edit.php');
-
+require_login();
 global $DB;
 $PAGE->set_pagelayout('incourse');
 $PAGE->set_url(new moodle_url('/local/message/edit.php'));

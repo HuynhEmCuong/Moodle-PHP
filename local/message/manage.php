@@ -14,14 +14,15 @@
  * 
  */
 require_once(__DIR__ . '/../../config.php');
+require_login();
+
 $PAGE->set_pagelayout('incourse');
 $PAGE->set_url(new moodle_url('/local/message/manage.php'));
 $PAGE->set_title('test manage');
 $PAGE->set_context(\context_system::instance());
+
 global $DB;
-
 $messages = array_values($DB->get_records('local_message'));
-
 
 $data = (object) [
             "message" => $messages,

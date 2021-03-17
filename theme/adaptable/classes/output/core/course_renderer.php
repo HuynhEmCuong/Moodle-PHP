@@ -227,15 +227,10 @@ class course_renderer extends \core_course_renderer {
         global $CFG;
 
         if ($course instanceof stdClass) {
-            require_once($CFG->libdir. '/coursecatlib.php');
-            $course = new core_course_list_element($course);
+            $course = new \core_course_list_element($course);
         }
         if ($type == 3 || $this->output->body_id() != 'page-site-index') {
             return parent::coursecat_coursebox_content($chelper, $course);
-        }
-        if ($type == 4) {
-            // From this method's perspective 2 and 4 are the same.
-            $type = 2;
         }
         $content = '';
 
@@ -254,8 +249,17 @@ class course_renderer extends \core_course_renderer {
                     $contentimages .= html_writer::link($link, html_writer::empty_tag('img', array('src' => $url)));
                     $contentimages .= html_writer::end_tag('div');
                 } else {
-                    $contentimages .= html_writer::tag('div', '', array('class' => 'cimbox',
-                        'style' => 'background-image: url(\''.$url.'\');'));
+                    $cimboxattr = array(
+                        'class' => 'cimbox',
+                        'style' => 'background-image: url(\''.$url.'\');'
+                    );
+                    if ($type == 4) {
+                        $cimtag = 'a';
+                        $cimboxattr['href'] = new moodle_url('/course/view.php', array('id' => $course->id));
+                    } else {
+                        $cimtag = 'div';
+                    }
+                    $contentimages .= html_writer::tag($cimtag, '', $cimboxattr);
                 }
             } else {
                 $image = $this->output->pix_icon(file_file_icon($file, 24), $file->get_filename(), 'moodle');
@@ -266,28 +270,33 @@ class course_renderer extends \core_course_renderer {
                         array('class' => 'coursefile fp-filename-icon'));
             }
         }
-        if (strlen($contentimages) == 0 && $type == 2) {
+        if (strlen($contentimages) == 0 && (($type == 2) || ($type == 4))) {
             // Default image.
             $cimboxattr = array('class' => 'cimbox');
             $url = $this->page->theme->setting_file_url('frontpagerendererdefaultimage', 'frontpagerendererdefaultimage');
             if (!empty($url)) {
                 $cimboxattr['style'] = 'background-image: url(\''.$url.'\');';
             }
-            $contentimages .= html_writer::tag('div', '', $cimboxattr);
+            if ($type == 2) {
+                $cimtag = 'div';
+            } else { // Type is 4.
+                $cimboxattr['href'] = new moodle_url('/course/view.php', array('id' => $course->id));
+                $cimtag = 'a';
+            }
+            $contentimages .= html_writer::tag($cimtag, '', $cimboxattr);
         }
         $content .= $contentimages.$contentfiles;
 
-        if ($type == 2) {
+        if (($type == 2) || ($type == 4)) {
             $content .= $this->coursecat_coursebox_enrolmenticons($course);
-        }
-
-        if ($type == 2) {
-            $content .= html_writer::start_tag('a', array(
-                'class' => 'coursebox-content',
-                'href' => new moodle_url('/course/view.php', array('id' => $course->id))
-            ));
+            $content .= html_writer::start_tag('div', array(
+                'class' => 'coursebox-content'
+                )
+            );
             $coursename = $chelper->get_course_formatted_name($course);
+            $content .= html_writer::start_tag('a', array('href' => new moodle_url('/course/view.php', array('id' => $course->id))));
             $content .= html_writer::tag('h3', $coursename, array('class' => $course->visible ? '' : 'dimmed'));
+            $content .= html_writer::end_tag('a');
         }
         $content .= html_writer::start_tag('div', array('class' => 'summary'));
         // Display course summary.
@@ -305,12 +314,12 @@ class course_renderer extends \core_course_renderer {
             if ($course->has_course_contacts()) {
                 $content .= html_writer::start_tag('ul', array('class' => 'teachers'));
                 foreach ($course->get_course_contacts() as $userid => $coursecontact) {
-                    $name = ($coursecontacttitle ? $coursecontact['rolename'].': ' : html_writer::tag('i', '&nbsp;',
-                            array('class' => 'fa fa-graduation-cap')) ).
-                            html_writer::link(new moodle_url('/user/view.php',
-                                    array('id' => $userid, 'course' => SITEID)),
-                                    $coursecontact['username']);
-                            $content .= html_writer::tag('li', $name);
+                    $cct = ($coursecontacttitle ? $coursecontact['rolename'].': ' : html_writer::tag('i', '&nbsp;',
+                        array('class' => 'fa fa-graduation-cap')));
+                    $name = html_writer::link(new moodle_url('/user/view.php',
+                        array('id' => $userid, 'course' => $course->id)),
+                        $cct.$coursecontact['username']);
+                    $content .= html_writer::tag('li', $name);
                 }
                 $content .= html_writer::end_tag('ul'); // Teachers.
             }
@@ -328,10 +337,11 @@ class course_renderer extends \core_course_renderer {
                         $content .= html_writer::end_tag('div'); // Coursecat.
             }
         }
-        if ($type == 2) {
-            $content .= html_writer::end_tag('a');
+        if (($type == 2) || ($type == 4)) {
+            $content .= html_writer::end_tag('div');
             // End coursebox-content.
         }
+
         $content .= html_writer::tag('div', '', array('class' => 'boxfooter')); // Coursecat.
 
         return $content;
@@ -710,7 +720,7 @@ class course_renderer extends \core_course_renderer {
             $output .= $mod->afterlink;
 
             // Closing the tag which contains everything but edit icons. Content part of the module should not be part of this.
-            $output .= html_writer::end_tag('div'); // .activityinstance class.
+            $output .= html_writer::end_tag('div'); // End .activityinstance class.
         }
 
         // If there is content but NO link (eg label), then display the
@@ -855,11 +865,7 @@ class course_renderer extends \core_course_renderer {
 
                 $labeltext .= get_string('due', 'theme_adaptable', userdate($meta->$field, $dateformat));
 
-                $activityclass = '';
-                if ($mod->modname == 'assign') {
-                    $activityclass = 'ad-activity-due-date';
-                }
-                $duedate = html_writer::start_tag('span', array('class' => $activityclass.$warningclass));
+                $duedate = html_writer::start_tag('span', array('class' => 'ad-activity-due-date'.$warningclass));
                 $duedate .= html_writer::link($url, $labeltext);
                 $duedate .= html_writer::end_tag('span');
                 $content .= html_writer::start_tag('div', array('class' => 'ad-activity-mod-engagement'));
@@ -873,12 +879,23 @@ class course_renderer extends \core_course_renderer {
 
             // Below, !== false means we get 0 out of x submissions.
             if (!$meta->submissionnotrequired && $meta->numparticipants !== false) {
-                $engagementmeta[] = get_string('xofy'.$meta->submitstrkey, 'theme_adaptable',
-                    (object) array(
-                        'completed' => $meta->numsubmissions,
-                        'participants' => $meta->numparticipants
-                    )
-                );
+                /* If numparticipants is 0 then the code cannot determine how many students could
+                   take the activity.  Such as when the activity is hidden and would not be able
+                   to tell if a student could when it was visible. */
+                if ($meta->numparticipants == 0) {
+                    $engagementmeta[] = get_string('x'.$meta->submitstrkey, 'theme_adaptable',
+                        array(
+                            'completed' => $meta->numsubmissions
+                        )
+                    );
+                } else {
+                    $engagementmeta[] = get_string('xofy'.$meta->submitstrkey, 'theme_adaptable',
+                        array(
+                            'completed' => $meta->numsubmissions,
+                            'participants' => $meta->numparticipants
+                        )
+                    );
+                }
             }
 
             if ($meta->numrequiregrading) {
@@ -947,7 +964,8 @@ class course_renderer extends \core_course_renderer {
                 } else {
                     $submittedonstr = ' '.userdate($meta->timesubmitted, get_string('strftimedate', 'langconfig'));
                 }
-                $message = $this->output->pix_icon('i/checked', get_string('checked', 'theme_adaptable')).$meta->submittedstr.$submittedonstr;
+                $message = $this->output->pix_icon('i/checked', get_string('checked', 'theme_adaptable')).
+                    $meta->submittedstr.$submittedonstr;
             } else {
                 if ($meta->expired) {
                     $warningstr = $meta->expiredstr;

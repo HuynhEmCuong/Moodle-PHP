@@ -49,7 +49,7 @@ function theme_adaptable_process_css($css, $theme) {
 
     // Set category custom CSS.
     $css = theme_adaptable_set_categorycustomcss($css, $theme->settings);
-   
+
     // Collapsed Topics colours.
     if (empty($theme->settings->collapsedtopicscoloursenabled)) {
         $css .= '.theme_adaptable .course-content ul.ctopics li.section .content .toggle span.the_toggle h3.sectionname,'.PHP_EOL;
@@ -108,11 +108,11 @@ function theme_adaptable_process_css($css, $theme) {
         '[[setting:buttonlogincolor]]' => '#ef5350',
         '[[setting:buttonloginhovercolor]]' => '#e53935',
         '[[setting:buttonlogintextcolor]]' => '#0084c2',
-        '[[setting:buttonloginpadding]]' => '0px',
+        '[[setting:buttonloginpadding]]' => '0',
         '[[setting:buttonloginheight]]' => '24px',
         '[[setting:buttonloginmargintop]]' => '2px',
         '[[setting:buttonradius]]' => '5px',
-        '[[setting:buttondropshadow]]' => '0px',
+        '[[setting:buttondropshadow]]' => '0',
         '[[setting:dividingline]]' => '#ffffff',
         '[[setting:dividingline2]]' => '#ffffff',
         '[[setting:breadcrumb]]' => '#b4bbbf',
@@ -140,19 +140,19 @@ function theme_adaptable_process_css($css, $theme) {
         '[[setting:marketblockbordercolor]]' => '#e8eaeb',
         '[[setting:marketblocksbackgroundcolor]]' => 'transparent',
         '[[setting:blockheaderbordertop]]' => '1px',
-        '[[setting:blockheaderborderleft]]' => '0px',
-        '[[setting:blockheaderborderright]]' => '0px',
-        '[[setting:blockheaderborderbottom]]' => '0px',
-        '[[setting:blockmainbordertop]]' => '0px',
-        '[[setting:blockmainborderleft]]' => '0px',
-        '[[setting:blockmainborderright]]' => '0px',
-        '[[setting:blockmainborderbottom]]' => '0px',
+        '[[setting:blockheaderborderleft]]' => '0',
+        '[[setting:blockheaderborderright]]' => '0',
+        '[[setting:blockheaderborderbottom]]' => '0',
+        '[[setting:blockmainbordertop]]' => '0',
+        '[[setting:blockmainborderleft]]' => '0',
+        '[[setting:blockmainborderright]]' => '0',
+        '[[setting:blockmainborderbottom]]' => '0',
         '[[setting:blockheaderbordertopstyle]]' => 'dashed',
         '[[setting:blockmainbordertopstyle]]' => 'solid',
-        '[[setting:blockheadertopradius]]' => '0px',
-        '[[setting:blockheaderbottomradius]]' => '0px',
-        '[[setting:blockmaintopradius]]' => '0px',
-        '[[setting:blockmainbottomradius]]' => '0px',
+        '[[setting:blockheadertopradius]]' => '0',
+        '[[setting:blockheaderbottomradius]]' => '0',
+        '[[setting:blockmaintopradius]]' => '0',
+        '[[setting:blockmainbottomradius]]' => '0',
         '[[setting:coursesectionbgcolor]]' => '#FFFFFF',
         '[[setting:coursesectionheaderbg]]' => '#FFFFFF',
         '[[setting:coursesectionheaderbordercolor]]' => '#F3F3F3',
@@ -193,7 +193,7 @@ function theme_adaptable_process_css($css, $theme) {
         '[[setting:mobilemenubkcolor]]' => '#F9F9F9',
         '[[setting:mobileslidebartabbkcolor]]' => '#F9F9F9',
         '[[setting:mobileslidebartabiconcolor]]' => '#000000',
-        '[[setting:navbardropdownborderradius]]' => '0px',
+        '[[setting:navbardropdownborderradius]]' => '0',
         '[[setting:navbardropdownhovercolor]]' => '#EEE',
         '[[setting:navbardropdowntextcolor]]' => '#007',
         '[[setting:navbardropdowntexthovercolor]]' => '#000',
@@ -202,8 +202,7 @@ function theme_adaptable_process_css($css, $theme) {
         '[[setting:covfontcolor]]' => '#ffffff',
         '[[setting:editonbk]]' => '#4caf50',
         '[[setting:editoffbk]]' => '#f44336',
-        '[[setting:editverticalpadding]]' => '',
-        '[[setting:edithorizontalpadding]]' => '',
+        '[[setting:edithorizontalpadding]]' => '4px',
         '[[setting:edittopmargin]]' => '',
         '[[setting:editfont]]' => '#ffffff',
         '[[setting:sliderh3color]]' => '#ffffff',
@@ -236,7 +235,7 @@ function theme_adaptable_process_css($css, $theme) {
         '[[setting:customfontname]]' => '',
         '[[setting:customfontheadername]]' => '',
         '[[setting:customfonttitlename]]' => '',
-        '[[setting:searchboxpadding]]' => '0px 0px 10px 0px',
+        '[[setting:searchboxpadding]]' => '0 0 10px 0',
         '[[setting:enablesavecanceloverlay]]' => true,
         '[[setting:pageheaderheight]]' => '72px',
         '[[setting:emoticonsize]]' => '16px',
@@ -586,24 +585,10 @@ function theme_adaptable_pluginfile($course, $cm, $context, $filearea, $args, $f
             return $theme->setting_file_serve('loginbgimage', $args, $forcedownload, $options);
         } else if (preg_match("/^p[1-9][0-9]?$/", $filearea)) {
             return $theme->setting_file_serve($filearea, $args, $forcedownload, $options);
-        } else if ((substr($filearea, 0, 9) === 'marketing') && (substr($filearea, 10, 5) === 'image')) {
-            return $theme->setting_file_serve($filearea, $args, $forcedownload, $options);
         } else if (preg_match("/^categoryheaderbgimage[1-9][0-9]*$/", $filearea)) { // Link: http://regexpal.com/ useful.
             return $theme->setting_file_serve($filearea, $args, $forcedownload, $options);
         } else if (preg_match("/^categoryheaderlogo[1-9][0-9]*$/", $filearea)) { // Link: http://regexpal.com/ useful.
             return $theme->setting_file_serve($filearea, $args, $forcedownload, $options);
-        } else if ($filearea === 'iphoneicon') {
-            return $theme->setting_file_serve('iphoneicon', $args, $forcedownload, $options);
-        } else if ($filearea === 'iphoneretinaicon') {
-            return $theme->setting_file_serve('iphoneretinaicon', $args, $forcedownload, $options);
-        } else if ($filearea === 'ipadicon') {
-            return $theme->setting_file_serve('ipadicon', $args, $forcedownload, $options);
-        } else if ($filearea === 'ipadretinaicon') {
-            return $theme->setting_file_serve('ipadretinaicon', $args, $forcedownload, $options);
-        } else if ($filearea === 'fontfilettfheading') {
-            return $theme->setting_file_serve('fontfilettfheading', $args, $forcedownload, $options);
-        } else if ($filearea === 'fontfilettfbody') {
-            return $theme->setting_file_serve('fontfilettfbody', $args, $forcedownload, $options);
         } else if ($filearea === 'adaptablemarkettingimages') {
             return $theme->setting_file_serve('adaptablemarkettingimages', $args, $forcedownload, $options);
         } else {
@@ -700,7 +685,7 @@ function theme_adaptable_grid($left, $hassidepost) {
         if ($left) {
             $regions['direction'] = ' flex-row-reverse';
         } else {
-            $regions['direction'] = '';
+            $regions['direction'] = ' flex-row';
         }
     } else {
         $regions = array('content' => 'col-12');

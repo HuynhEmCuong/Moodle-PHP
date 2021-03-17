@@ -29,10 +29,10 @@ class edit extends moodleform {
 
         //Select options
         $options = array(
-            \core\output\notification::NOTIFY_ERROR,
-            \core\output\notification::NOTIFY_INFO,
             \core\output\notification::NOTIFY_WARNING,
             \core\output\notification::NOTIFY_SUCCESS,
+            \core\output\notification::NOTIFY_ERROR,
+            \core\output\notification::NOTIFY_INFO,
         );
         $mform->addElement('select', 'messageType', 'Message Type', $options);
         $mform->setDefault('messageType', [1]);

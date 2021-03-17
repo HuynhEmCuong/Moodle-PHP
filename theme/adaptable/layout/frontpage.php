@@ -90,9 +90,9 @@ if (!empty($PAGE->theme->settings->infobox2)) {
 
         <section id="region-main" class="<?php echo $regions['content'];?>">
             <?php
-             echo $OUTPUT->course_content_header();
+            echo $OUTPUT->course_content_header();
             echo $OUTPUT->main_content();
-             echo $OUTPUT->course_content_footer();
+            echo $OUTPUT->course_content_footer();
             ?>
         </section>
         <?php
@@ -101,6 +101,7 @@ if (!empty($PAGE->theme->settings->infobox2)) {
         }
         ?>
     </div>
+
 <?php
 
 // Let's show the hidden blocks region ONLY for administrators.

@@ -29,7 +29,7 @@
 // $string['configtitle'] = 'HTML block title';
 $string['testblock:addinstance'] = 'Add a new Test block';
 $string['testblock:myaddinstance'] = 'Add a new Test block to Dashboard';
-$string['testblock'] = 'test block';
-$string['pluginname'] = 'test block';
+$string['testblock'] = 'Test block';
+$string['pluginname'] = 'Test block';
 $string['showcourses'] = 'Show courses';
 $string['showcoursesdesc'] = 'Show courses instead of users';

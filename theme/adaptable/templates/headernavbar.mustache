@@ -84,7 +84,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
 
-            <div class="collapse navbar-collapse test" id="navbarSupportedContent">
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
                 <nav aria-label="{{#str}}sitelinkslabel, theme_adaptable{{/str}}">
                     <ul class="navbar-nav">
@@ -98,7 +98,7 @@
                     </ul>
                 </nav>
 
-                <ul class="navbar-nav ml-auto">
+                <ul class="navbar-nav ml-auto d-flex flex-wrap">
                     {{#showcog}}
                     {{#coursemenucontent}}
                     <li class="nav-item mr-2">
@@ -118,10 +118,8 @@
                     {{/showcog}}
 
                     {{#pageheadingbutton}}
-                    <li class="nav-item mx-0 my-auto">
-                        <div id="edittingbutton">
-                            {{{pageheadingbutton}}}
-                        </div>
+                    <li id="editingbutton" class="nav-item mx-0 my-auto">
+                        {{{pageheadingbutton}}}
                     </li>
                     {{/pageheadingbutton}}
 

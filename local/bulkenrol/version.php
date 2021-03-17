@@ -14,28 +14,19 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-/**
- * Version details
- *
- * @package    theme_adaptable
- * @copyright  2015-2019 Jeremy Hopkins (Coventry University)
- * @copyright  2015-2019 Fernando Acedo (3-bits.com)
- * @copyright  2017-2019 Manoj Solanki (Coventry University)
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
- *
- */
-
-namespace theme_adaptable\output;
-
-defined('MOODLE_INTERNAL') || die;
 
 /**
- * Renderers to align Moodle's HTML with that expected by Bootstrap
+ * Local plugin "bulkenrol" - Version information
  *
- * Note: This class is required to avoid inheriting Boost's core_renderer
- *
- * @copyright Copyright (c) 2017 Manoj Solanki (Coventry University)
+ * @package   local_bulkenrol
+ * @copyright 2017 Soon Systems GmbH on behalf of Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class core_renderer extends \core_renderer {
-}
+
+defined('MOODLE_INTERNAL') || die();
+
+$plugin->component = 'local_bulkenrol';
+$plugin->version = 2020051200;
+$plugin->release = 'v3.8-r2';
+$plugin->requires = 2019111800;
+$plugin->maturity = MATURITY_STABLE;
