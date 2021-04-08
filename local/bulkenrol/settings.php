@@ -65,7 +65,7 @@ if ($hassiteconfig) {
         } else {
             $firststudentroleid = '';
         }
-        $settings->add(
+        $settings->add( 
                 new admin_setting_configselect(
                         'local_bulkenrol/role',
                         get_string('role', 'local_bulkenrol'),

@@ -503,7 +503,7 @@ function local_bulkenrol_display_table($localbulkenroldata, $key) {
                         $cell = new html_table_cell();
                         $cell->text = $line;
                         $row[] = $cell;
-
+            
                         $cell = new html_table_cell();
                         $cell->text = $errormessages;
                         $row[] = $cell;

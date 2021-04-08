@@ -1,4 +1,5 @@
 <?php
+
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -21,14 +22,13 @@
  * @copyright 2017 Soon Systems GmbH on behalf of Alexander Bias, Ulm University <alexander.bias@uni-ulm.de>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
 use local_bulkenrol\bulkenrol_form;
 use local_bulkenrol\confirm_form;
 
 require_once('../../config.php');
 
-require_once($CFG->libdir.'/adminlib.php');
-require_once($CFG->dirroot.'/local/bulkenrol/locallib.php');
+require_once($CFG->libdir . '/adminlib.php');
+require_once($CFG->dirroot . '/local/bulkenrol/locallib.php');
 
 global $PAGE, $OUTPUT, $SESSION;
 
@@ -43,7 +43,7 @@ if (!empty($id)) {
 
     $PAGE->set_context($context);
     $PAGE->set_url('/local/bulkenrol/index.php', array('id' => $id));
-    $PAGE->set_title("$course->shortname: ".get_string('pluginname', 'local_bulkenrol'));
+    $PAGE->set_title("$course->shortname: " . get_string('pluginname', 'local_bulkenrol'));
     $PAGE->set_heading($course->fullname);
 
     require_login($course);
@@ -69,18 +69,18 @@ if (empty($localbulkenrolkey)) {
             $SESSION->local_bulkenrol = array();
         }
         // Save data in Session.
-        $localbulkenrolkey = $courseid.'_'.time();
+        $localbulkenrolkey = $courseid . '_' . time();
         $SESSION->local_bulkenrol[$localbulkenrolkey] = $checkedmails;
 
         // Create local_bulkenrol_inputs array in session.
         if (!isset($SESSION->local_bulkenrol_inputs)) {
             $SESSION->local_bulkenrol_inputs = array();
         }
-        $localbulkenroldata = $localbulkenrolkey.'_data';
+        $localbulkenroldata = $localbulkenrolkey . '_data';
         $SESSION->local_bulkenrol_inputs[$localbulkenroldata] = $emails;
     } else if ($form->is_cancelled()) {
         if (!empty($id)) {
-            redirect($CFG->wwwroot .'/course/view.php?id='.$id, '', 0);
+            redirect($CFG->wwwroot . '/course/view.php?id=' . $id, '', 0);
         } else {
             redirect($CFG->wwwroot, '', 0);
         }
@@ -103,16 +103,15 @@ if ($localbulkenrolkey) {
             $msg = local_bulkenrol_users($localbulkenrolkey);
 
             if ($msg->status == 'error') {
-                redirect($CFG->wwwroot .'/user/index.php?id='.$id, "$msg->text", null, \core\output\notification::NOTIFY_ERROR);
+                redirect($CFG->wwwroot . '/user/index.php?id=' . $id, "$msg->text", null, \core\output\notification::NOTIFY_ERROR);
             } else {
-                redirect($CFG->wwwroot .'/user/index.php?id='.$id, "$msg->text", null, \core\output\notification::NOTIFY_SUCCESS);
+                redirect($CFG->wwwroot . '/user/index.php?id=' . $id, "$msg->text", null, \core\output\notification::NOTIFY_SUCCESS);
             }
-
         } else {
-            redirect($CFG->wwwroot .'/local/bulkenrol/index.php?id='.$id, '', 0);
+            redirect($CFG->wwwroot . '/local/bulkenrol/index.php?id=' . $id, '', 0);
         }
     } else if ($form2->is_cancelled()) {
-        redirect($CFG->wwwroot .'/local/bulkenrol/index.php?id='.$id, '', 0);
+        redirect($CFG->wwwroot . '/local/bulkenrol/index.php?id=' . $id, '', 0);
     } else {
         $PAGE->set_url('/local/bulkenrol/index.php', array('id' => $id));
 
@@ -147,7 +146,6 @@ if ($localbulkenrolkey) {
             local_bulkenrol_display_enroldetails();
             echo $form2->display();
         }
-
         echo $OUTPUT->footer();
     }
 }

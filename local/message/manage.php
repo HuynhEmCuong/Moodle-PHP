@@ -32,5 +32,5 @@ $data = (object) [
 
 //HTML
 echo $OUTPUT->header();
-echo $OUTPUT->render_from_template('local_message/manage', $data);
+echo $OUTPUT->render_from_template('local_message/manage',$data);
 echo $OUTPUT->footer();

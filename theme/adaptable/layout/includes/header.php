@@ -161,6 +161,8 @@ echo $OUTPUT->standard_top_of_body_html();
         'output' => $OUTPUT
     ];
 
+    
+    // Start User profie
     if ((!isloggedin() || isguestuser()) && ($PAGE->pagetype != "login-index")) {
         if ($PAGE->theme->settings->displaylogin != 'no') {
             $loginformcontext = [
@@ -209,6 +211,7 @@ echo $OUTPUT->standard_top_of_body_html();
             $headercontext['loginoruser'] = '';
         }
     }
+    // End User profie
 
     if (!$hidesitetitle) {
         $headercontext['sitelogo'] = $OUTPUT->get_logo($currenttopcat);

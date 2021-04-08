@@ -48,7 +48,7 @@ class block_testblock extends block_base {
          foreach($data as $item){
               $content = $showcourses ? $item->fullname:$item->firstname;
             $this->content->text .='<h3>'. $content .'</h3>' .'<br>';
-            // $this->content->text .='<h3>'. $showcourses? $item->fullname : $item->firstname .'</h3>' .'<br>';
+//             $this->content->text .='<h3>'. $showcourses? $item->fullname : $item->firstname .'</h3>' .'<br>';
          }
         $this->content->footer ='this is  the footer';
         return $this->content;
