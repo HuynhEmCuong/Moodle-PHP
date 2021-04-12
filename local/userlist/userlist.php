@@ -24,7 +24,7 @@ $PAGE->set_url(new moodle_url('/local/userlist/userlist.php'));
 $PAGE->set_context(\context_system::instance());
 
 //Get data & varibal
-$messages = array_values($DB->get_records('local_message'));
+$messages = array_values($DB->get_records('user'));
 $url = new moodle_url('/local/userlist/edit.php');
 
 //HTML

@@ -34,6 +34,7 @@ $ADMIN->add('root', new admin_category('grades', new lang_string('grades')));
 $ADMIN->add('root', new admin_category('analytics', new lang_string('analytics', 'analytics')));
 $ADMIN->add('root', new admin_category('h5p', new lang_string('h5p', 'core_h5p')));
 $ADMIN->add('root', new admin_category('language', new lang_string('language')));
+$ADMIN->add('root', new admin_category('server', new lang_string('server','admin')));
 $ADMIN->add('root', new admin_category('modules', new lang_string('plugins', 'admin')));
 $ADMIN->add('root', new admin_category('security', new lang_string('security','admin')));
 $ADMIN->add('root', new admin_category('appearance', new lang_string('appearance','admin')));
