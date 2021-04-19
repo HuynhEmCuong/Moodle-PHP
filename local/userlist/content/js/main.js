@@ -5,3 +5,11 @@
  */
 
 
+setInterval(() => {
+    var day = new Date();
+    $("#clock").html(day.getHours().toString() +
+            ':' +
+            (day.getMinutes() + 1).toString() +
+            ':' +
+            day.getSeconds().toString() );
+}, 1000);

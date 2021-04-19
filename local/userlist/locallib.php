@@ -14,7 +14,15 @@
  */
 defined('MOODLE_INTERNAL') || die();
 require_once($CFG->dirroot . '/local/userlist/classes/excel/PHPExcel.php');
+require_once($CFG->dirroot . '/local/userlist/classes/userclass.php');
+require_once($CFG->dirroot . '/local/userlist/lib.php');
 
+
+
+/**
+ * @param $dataShow is array  into the table
+ * @return create table with input data(array)
+ */
 function show_data_display_table($dataShow) {
 
     global $OUTPUT;
@@ -43,6 +51,13 @@ function show_data_display_table($dataShow) {
     echo html_writer::tag('div', html_writer::table($table), array('class' => 'flexible-wrap'));
 }
 
+
+/** 
+ * function used add cells to the row
+ * @param $text is value of cell 
+ * @param $row is array contains cell list 
+ * @return $row has add cell
+ */
 function add_cell($row, $text) {
     $cell = new html_table_cell();
     $cell->text = $text;
@@ -50,51 +65,42 @@ function add_cell($row, $text) {
     return $row;
 }
 
-//Save data from file excel
+//
+/** 
+ * function save data from file excel
+ * @param $file is path of file excel
+ */
 function read_file_excel($file) {
+    //Read file excle
     $reader = PHPExcel_IOFactory::createReaderForFile($file);
     $excel_Obj = $reader->load($file);
     $worksheet = $excel_Obj->getSheet('0');
 
+    //Get total row & colum
     $totalRow = $worksheet->getHighestRow();
     $totalColum = PHPExcel_Cell::columnIndexFromString($worksheet->getHighestColumn());
 
-    $data = [];
+    
+    $users = [];
     for ($i = 2; $i <= $totalRow; $i++) {
-        $user = new User();
-        $user->idNumber = $worksheet->getCellByColumnAndRow(0, $i)->getValue();
-        $user->lastName = $worksheet->getCellByColumnAndRow(1, $i)->getValue();
-        $user->firstName = $worksheet->getCellByColumnAndRow(2, $i)->getValue();
-        $user->email = $worksheet->getCellByColumnAndRow(8, $i)->getValue();
-
-//        if (!Message::Check_exits($messageText)) {
-//            $data[] = new Message($messageText, $messageType);
-//        }
-    }
-    User::Add_item($data);
-}
-
-class User {
-
-    public $idnumber;
-    public $username;
-    public $firstname;
-    public $lastname;
-    public $email;
-
-    public static function Check_exits($email) {
-        global $DB;
-        $check = $DB->record_exists('user', array('email' => $email));
-        return $check;
-    }
-
-    public static function Add_item($data) {
-        global $DB;
-        try {
-            return $DB->insert_records('user', $data);
-        } catch (Exception $ex) {
-            echo 'Caught exception: ', $ex->getMessage(), "\n";
+        $idNumber = $worksheet->getCellByColumnAndRow(0, $i)->getValue();
+        if (!empty($idNumber)) {
+            $user = new User();
+            $user->idnumber = $idNumber;
+            $user->lastname = $worksheet->getCellByColumnAndRow(1, $i)->getValue();
+            $user->firstname = $worksheet->getCellByColumnAndRow(2, $i)->getValue();
+            $user->email = $worksheet->getCellByColumnAndRow(8, $i)->getValue();
+            $user->username = User::get_user_name($user->firstname, $user->lastname);
+            //Set password default
+            $user->password = hash_internal_user_password('Eiu@1234');
+            if (!User::Check_exits($user->email)) {
+                $users[] = $user;
+            }
         }
     }
-
+    
+    //Used funciton add user in userclass.php
+    User::Add_item($users);
 }
+
+
