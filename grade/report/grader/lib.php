@@ -697,13 +697,14 @@ class grade_report_grader extends grade_report {
 
         foreach ($extrafields as $field) {
             $fieldheader = new html_table_cell();
-            $fieldheader->attributes['class'] = 'header userfield user' . $field;
+            $fieldheader->attributes['class'] = 'header userfield user' . $field ;
             $fieldheader->scope = 'col';
             $fieldheader->header = true;
             $fieldheader->text = $arrows[$field];
 
             $headerrow->cells[] = $fieldheader;
         }
+        
 
         $rows[] = $headerrow;
 

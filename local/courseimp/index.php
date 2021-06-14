@@ -28,6 +28,11 @@ require_login();
 
 $mform = new formimp();
 
+if ($fromform = $mform->get_data()) {
+    $test = date("Y-m-d H:i:s", 1388516401);
+    $test1 = new DateTime();
+    $test12 = strtotime($test1->date);
+}
 echo $OUTPUT->header();
 $mform->display();
 echo $OUTPUT->footer();

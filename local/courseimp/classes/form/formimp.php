@@ -22,13 +22,13 @@ class formimp extends moodleform {
     public function definition() {
         $mform = $this->_form; // Don't forget the underscore! 
         $displaylist = core_course_category::make_categories_list('moodle/course:create');
-        $mform->addElement('select', 'category', 'Ngu', $displaylist);
+        $mform->addElement('select', 'category', 'Course Category', $displaylist);
         $mform->addHelpButton('category', 'coursecategory');
         $mform->setDefault('category', $category->id);
 
         $mform->addElement('filepicker', 'userfile', 'File', null,
                 array('accepted_types' => '*'));
-
+        
         $this->add_action_buttons();
     }
     

@@ -13,7 +13,7 @@
  * @var stdClass $plugin
  */
 defined('MOODLE_INTERNAL') || die();
-require_once($CFG->dirroot . '/local/userlist/classes/excel/PHPExcel.php');
+require_once($CFG->dirroot . '/local/codeUtility/excel/PHPExcel.php');
 require_once($CFG->dirroot . '/local/userlist/classes/userclass.php');
 require_once($CFG->dirroot . '/local/userlist/lib.php');
 
